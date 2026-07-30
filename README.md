@@ -38,5 +38,5 @@ Follow these steps to run the project locally on your machine:
 
 ## 🔗 Links
 
-- **GitHub Repository:** [https://github.com/mahmudul58/React-Shopping-Cart.git](https://github.com/mahmudul58/React-Shopping-Cart.git)
-- **Live Project:** [Live link will be added here]
+- **GitHub Repository:** https://github.com/mahmudul58/React-Shopping-Cart
+- **Live Project:** https://tech-next-nine.vercel.app/
