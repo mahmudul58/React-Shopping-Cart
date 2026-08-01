@@ -1,6 +1,10 @@
 import { products } from "../data/product";
 
 export default function ProductList({ onAddToCart }) {
+  const handleAddToCartClick = (product) => {
+    onAddToCart(product);
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -22,7 +26,7 @@ export default function ProductList({ onAddToCart }) {
                 <p className="text-xl font-extrabold text-gray-900 mt-2">৳ {product.price.toLocaleString("en-IN")}</p>
                 <button
                   type="button"
-                  onClick={() => onAddToCart(product)}
+                  onClick={() => handleAddToCartClick(product)}
                   className="w-full mt-4 rounded-md bg-[#ffc300] px-4 py-2.5 text-sm font-bold text-black transition-colors duration-200 hover:bg-[#e6b000] active:scale-95"
                 >
                   Add to Cart

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { InvalidPromoModal, ConfirmClearCartModal } from "./ModalDialogs";
+import { ConfirmClearCartWindow } from "./ModalDialogs";
+import toast from "react-hot-toast";
 
 export default function ShoppingCart({ cart, handleQuantityChange, handleRemoveItem, handleClearCart }) {
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [showPromoModal, setShowPromoModal] = useState(false);
   const [showClearCartModal, setShowClearCartModal] = useState(false);
 
   // Calculations
@@ -15,8 +15,7 @@ export default function ShoppingCart({ cart, handleQuantityChange, handleRemoveI
 
   return (
     <div className="min-h-screen bg-[#f2f4f7] p-4 md:p-10 font-sans relative">
-      <InvalidPromoModal isOpen={showPromoModal} onClose={() => setShowPromoModal(false)} />
-      <ConfirmClearCartModal
+      <ConfirmClearCartWindow
         isOpen={showClearCartModal}
         onClose={() => setShowClearCartModal(false)}
         onConfirm={() => {
@@ -148,10 +147,13 @@ export default function ShoppingCart({ cart, handleQuantityChange, handleRemoveI
           <button
             type="button"
             onClick={() => {
-              setShowPromoModal(true);
-              setTimeout(() => {
-                setShowPromoModal(false);
-              }, 4000);
+              if (promoCode.trim() === "") {
+                toast.error("Please enter a promo code");
+                return;
+              }
+              // To prevent spamming the exact same toast, we assign an ID
+              // but if they want it to stack, remove the ID. We'll use ID here to keep it clean.
+              toast.error("Invalid Promo Code!", { id: "invalid-promo" });
             }}
             className="w-full py-2.5 bg-[#4f00ff] hover:bg-[#4300e6] text-white font-bold text-sm rounded transition-colors cursor-pointer"
           >

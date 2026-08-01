@@ -2,16 +2,15 @@ import NavBar from "./components/Navbar";
 import CartDrawer from "./components/CartDrawer";
 import ProductList from "./components/ProductList";
 import ShoppingCart from "./components/ShopingCart";
-import { ItemAddedModal, CartEmptyModal } from "./components/ModalDialogs";
 import Footer from "./components/Footer";
+import ToastProvider from "./components/ToastProvider";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function App() {
   const [CartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [cartEmptyModal, setCartEmptyModal] = useState(false);
   let orderQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   // Function to add a product to the cart
@@ -24,22 +23,13 @@ function App() {
       }
       return [...prevItems, { ...product, quantity: 1 }];
     });
-
-    setShowSuccessModal(true);
-
-    setTimeout(() => {
-      setShowSuccessModal(false);
-    }, 2000);
+    toast.success("Item has been successfully added to your cart!");
   };
 
   // Function to remove a product from the cart
   const handleRemoveFromCart = (productId) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
-    setCartEmptyModal(true);
-
-    setTimeout(() => {
-      setCartEmptyModal(false);
-    }, 2000);
+    toast.error("Item removed from cart!");
   };
 
   // Function to update the quantity (+/-)
@@ -61,10 +51,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
+        <ToastProvider />
         <CartDrawer isOpen={CartOpen} onClose={() => setCartOpen(false)} cartProducts={cartItems} handleUpdateQuantity={handleUpdateQuantity} handleRemoveFromCart={handleRemoveFromCart} />
         <NavBar isOpen={setCartOpen} cartProductsCount={orderQuantity} />
-        <ItemAddedModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />
-        <CartEmptyModal isOpen={cartEmptyModal} onClose={() => setCartEmptyModal(false)} />
         <div className="pt-18 grow">
           <Routes>
             <Route path="/" element={<ProductList onAddToCart={handleAddToCart} />} />
